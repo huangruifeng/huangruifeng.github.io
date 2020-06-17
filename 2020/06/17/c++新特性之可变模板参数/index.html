@@ -5,16 +5,19 @@
   
 
   
-  <title>记录每一天</title>
+  <title>可变模板参数 | 记录每一天</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="linux,c++">
-<meta property="og:type" content="website">
-<meta property="og:title" content="记录每一天">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="侯捷老师的课程笔记  含义类似下面的写法，在typename后面加了 … 表示一组东西，或者一包东西。这一组东西，可以是任意类型。与c语言的的可变参数有点像。使用variadic Templates 可以很方便的完成 recursive function call 示例1234567template&lt;typename T,typename...Types&gt;&#x2F;&#x2F;任意类型void pri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可变模板参数">
+<meta property="og:url" content="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/index.html">
 <meta property="og:site_name" content="记录每一天">
-<meta property="og:description" content="linux,c++">
+<meta property="og:description" content="侯捷老师的课程笔记  含义类似下面的写法，在typename后面加了 … 表示一组东西，或者一包东西。这一组东西，可以是任意类型。与c语言的的可变参数有点像。使用variadic Templates 可以很方便的完成 recursive function call 示例1234567template&lt;typename T,typename...Types&gt;&#x2F;&#x2F;任意类型void pri">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-17T07:36:35.000Z">
+<meta property="article:modified_time" content="2020-06-17T17:20:53.465Z">
 <meta property="article:author" content="huangruifeng">
+<meta property="article:tag" content="c++11">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="记录每一天" type="application/atom+xml">
@@ -68,45 +71,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-c++新特性之语法优化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" class="article-date">
-  <time datetime="2020-06-17T08:27:12.000Z" itemprop="datePublished">2020-06-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/">c++新特性之语法优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" data-id="ckbjm95ik000020gegafm9cip" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-c++新特性之可变模板参数" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-c++新特性之可变模板参数" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/" class="article-date">
   <time datetime="2020-06-17T07:36:35.000Z" itemprop="datePublished">2020-06-17</time>
@@ -119,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/">可变模板参数</a>
+    <h1 class="article-title" itemprop="name">
+      可变模板参数
     </h1>
   
 
@@ -154,111 +119,28 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-c++11新特性之头文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
-  <time datetime="2020-06-16T07:14:30.000Z" itemprop="datePublished">2020-06-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/">c++11新特性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><ul>
-<li>在c++11(C++2.0)中c++标准库的头文件不带.h，例如<code>#include&lt;list&gt;</code></li>
-<li>对于c头文件也不带.h，而是在前面加个c，例如 <code>#include&lt;cstdio&gt;</code></li>
-<li>对于旧式的用法 <code>#include&lt;stdio.h&gt;</code>也支持</li>
-</ul>
-<h2 id="c-2-0-新加的头文件"><a href="#c-2-0-新加的头文件" class="headerlink" title="c++2.0 新加的头文件"></a>c++2.0 新加的头文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;type_traits&gt; //类型</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unordered_set&gt;//无序set 哈希表</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;forward_list&gt; //单列表</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;array&gt; //数组</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;tuple&gt; //元组</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;regex&gt; //正则表达式</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt; //线程</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="确认支持c-11"><a href="#确认支持c-11" class="headerlink" title="确认支持c++11"></a>确认支持c++11</h2><p>marco __cplusplus 可以查看编译器的c++版本</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;__cplusplus&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="学习网址"><a href="#学习网址" class="headerlink" title="学习网址"></a>学习网址</h2><ul>
-<li><a href="http://www.cplusplus.com/" target="_blank" rel="noopener">http://www.cplusplus.com/</a></li>
-<li><a href="https://en.cppreference.com/w/" target="_blank" rel="noopener">https://en.cppreference.com/w/</a></li>
-<li><a href="http://gcc.gnu.org/" target="_blank" rel="noopener">http://gcc.gnu.org/</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckbi53icr0001pxgegg8z0krf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/14/hello-world/" class="article-date">
-  <time datetime="2020-06-14T09:26:37.040Z" itemprop="datePublished">2020-06-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          c++新特性之语法优化
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/14/hello-world/">Hello World</a>
-    </h1>
   
+    <a href="/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">c++11新特性</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/14/hello-world/" data-id="ckbi53icm0000pxge9p1a8h8b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
