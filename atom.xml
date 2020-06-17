@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Blog</title>
+  <title>记录每一天</title>
   
-  <subtitle>huangruifengs Blog</subtitle>
+  <subtitle>huangruifeng blog</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-06-16T16:02:45.588Z</updated>
+  <updated>2020-06-17T16:27:12.211Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>c++新特性之语法优化</title>
+    <link href="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/</id>
+    <published>2020-06-17T08:27:12.000Z</published>
+    <updated>2020-06-17T16:27:12.211Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>c++11新特性</title>
     <link href="http://yoursite.com/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
     <id>http://yoursite.com/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/</id>
     <published>2020-06-16T07:14:30.000Z</published>
-    <updated>2020-06-16T16:02:45.588Z</updated>
+    <updated>2020-06-17T16:27:40.671Z</updated>
     
     <content type="html"><![CDATA[<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><ul><li>在c++11(C++2.0)中c++标准库的头文件不带.h，例如<code>#include&lt;list&gt;</code></li><li>对于c头文件也不带.h，而是在前面加个c，例如 <code>#include&lt;cstdio&gt;</code></li><li>对于旧式的用法 <code>#include&lt;stdio.h&gt;</code>也支持</li></ul><h2 id="c-2-0-新加的头文件"><a href="#c-2-0-新加的头文件" class="headerlink" title="c++2.0 新加的头文件"></a>c++2.0 新加的头文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;type_traits&gt; //类型</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unordered_set&gt;//无序set 哈希表</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;forward_list&gt; //单列表</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;array&gt; //数组</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;tuple&gt; //元组</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;regex&gt; //正则表达式</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt; //线程</span></span></span><br></pre></td></tr></table></figure><h2 id="确认支持c-11"><a href="#确认支持c-11" class="headerlink" title="确认支持c++11"></a>确认支持c++11</h2><p>marco __cplusplus 可以查看编译器的c++版本</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;__cplusplus&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="学习网址"><a href="#学习网址" class="headerlink" title="学习网址"></a>学习网址</h2><ul><li><a href="http://www.cplusplus.com/" target="_blank" rel="noopener">http://www.cplusplus.com/</a></li><li><a href="https://en.cppreference.com/w/" target="_blank" rel="noopener">https://en.cppreference.com/w/</a></li><li><a href="http://gcc.gnu.org/" target="_blank" rel="noopener">http://gcc.gnu.org/</a></li></ul>]]></content>
     
