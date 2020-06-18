@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-06-17T16:27:12.211Z</updated>
+  <updated>2020-06-18T16:47:10.320Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,16 @@
     <link href="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/"/>
     <id>http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/</id>
     <published>2020-06-17T08:27:12.000Z</published>
-    <updated>2020-06-17T16:27:12.211Z</updated>
+    <updated>2020-06-18T16:47:10.320Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="模板表达式中的空格"><a href="#模板表达式中的空格" class="headerlink" title="模板表达式中的空格"></a>模板表达式中的空格</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="comment">//old </span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="comment">//Ok since C++11</span></span><br></pre></td></tr></table></figure><h2 id="nullptr-and-std-nullptr-t"><a href="#nullptr-and-std-nullptr-t" class="headerlink" title="nullptr and std::nullptr_t"></a>nullptr and std::nullptr_t</h2><p>使用nullptr 去代替0或者NULL</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">void</span> *)</span></span>;</span><br><span class="line"></span><br><span class="line">f(<span class="number">0</span>); <span class="comment">//call f(int)</span></span><br><span class="line">f(<span class="literal">NULL</span>) <span class="comment">//call f(int)</span></span><br><span class="line">f(<span class="literal">nullptr</span>) <span class="comment">//calls f(void*)</span></span><br></pre></td></tr></table></figure><p>类型std::nullptr_t</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&lt;cstddef&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">decltype</span><span class="params">(<span class="literal">nullptr</span>)</span> <span class="keyword">nullptr_t</span></span></span><br></pre></td></tr></table></figure><h2 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h2><p>类型推倒 (一般使用在类型复杂，太长（迭代器），无法写的类型如lambda)</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> i = <span class="number">42</span>; <span class="comment">//i 为int</span></span><br><span class="line"><span class="keyword">auto</span> l = [](<span class="keyword">int</span> x)-&gt;<span class="keyword">bool</span>&#123; <span class="comment">//l为 匿名函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line"><span class="keyword">auto</span> v = v.begin();</span><br></pre></td></tr></table></figure><p>作为函数返回值 decltype可以提取表达式的类型</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto test(const std::string&amp; s1,const std::string&amp; s2)-&gt; decltype(s1.length()-s2.length())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> s1.length()-s2.length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;模板表达式中的空格&quot;&gt;&lt;a href=&quot;#模板表达式中的空格&quot; class=&quot;headerlink&quot; title=&quot;模板表达式中的空格&quot;&gt;&lt;/a&gt;模板表达式中的空格&lt;/h2&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
+      
     
     </summary>
     
