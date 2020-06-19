@@ -102,7 +102,6 @@
 <li>如果有参数为initializer_list的函数，直接会调用对应参数为initializer_list的函数</li>
 <li>如果没有参数为initializer_list的函数，则进行拆分initializer_list，去匹配有相同参数个数，相同参数类型的函数。</li>
 </ol>
-<p>example:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">P</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// fun1</span></span><br><span class="line">    P(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt; <span class="string">"P(int,int)"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//fun2</span></span><br><span class="line">    P(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="keyword">int</span>&gt; initlist)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"P(initializer)"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// fun1 与 fun2 同时存在的调用结果</span></span><br><span class="line"><span class="function">P <span class="title">p</span><span class="params">(<span class="number">77</span>, <span class="number">5</span>)</span></span>; <span class="comment">// P(int,int)</span></span><br><span class="line">P q&#123;<span class="number">77</span>, <span class="number">5</span>&#125;; <span class="comment">//P(initializer)</span></span><br><span class="line">P r&#123;<span class="number">77</span>, <span class="number">55</span>, <span class="number">26</span>&#125;; <span class="comment">//P(initializer)</span></span><br><span class="line">P s = &#123;<span class="number">77</span>, <span class="number">5</span>&#125;;   <span class="comment">//P(initializer)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 去掉构造函数fun2 只保留fun1</span></span><br><span class="line"><span class="function">P <span class="title">p</span><span class="params">(<span class="number">77</span>, <span class="number">5</span>)</span></span>; <span class="comment">// P(int,int)</span></span><br><span class="line">P q&#123;<span class="number">77</span>, <span class="number">5</span>&#125;; <span class="comment">//P(int,int)</span></span><br><span class="line">P r&#123;<span class="number">77</span>, <span class="number">55</span>, <span class="number">26</span>&#125;; <span class="comment">//error: no matching function for call to ‘P::P(&lt;brace-enclosed initializer list&gt;)’</span></span><br><span class="line">P s = &#123;<span class="number">77</span>, <span class="number">5</span>&#125;;   <span class="comment">//P(int,int)</span></span><br></pre></td></tr></table></figure>
 <h3 id="initializer-list-的实现原理"><a href="#initializer-list-的实现原理" class="headerlink" title="initializer_list 的实现原理"></a>initializer_list 的实现原理</h3><p>以下代码摘自 gcc 7.5.0</p>
 <p>initializer_list的构造函数为 private故我们不能主动调用它，看注释可知这个构造函数是编译器可调用的。<br>故：当我们 使用大括号时 如{12,3,4,5}，编译器会先生成一个数组，然后用数字的首地址，和size来构造initializer_list。</p>
@@ -115,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" data-id="ckbmitqr40000qkgee6bl7ya0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" data-id="ckbmj7cfb0004y9ge50z01wme" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -169,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" data-id="ckbjm95ik000020gegafm9cip" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" data-id="ckbmj7cfa0003y9ge6ddg2jvu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -221,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/" data-id="ckbjmdie20000whge8dxn6wkq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/" data-id="ckbmj7cf70001y9ge0u8f6f4s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -272,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckbi53icr0001pxgegg8z0krf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/16/c++11%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckbmj7cf30000y9ge4xrkf5l8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
@@ -323,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/14/hello-world/" data-id="ckbi53icm0000pxge9p1a8h8b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/14/hello-world/" data-id="ckbmj7cfc0005y9geaiiw93br" class="article-share-link">Share</a>
       
       
     </footer>
