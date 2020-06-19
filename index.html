@@ -70,6 +70,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-c++新特性之初始化列表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" class="article-date">
+  <time datetime="2020-06-19T08:23:12.000Z" itemprop="datePublished">2020-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/">c++新特性之初始化列表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="initializer-Lists"><a href="#initializer-Lists" class="headerlink" title="initializer Lists"></a>initializer Lists</h2><h3 id="用途："><a href="#用途：" class="headerlink" title="用途："></a>用途：</h3><p>用来设置初值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i; <span class="comment">//undefined </span></span><br><span class="line"><span class="keyword">int</span> j&#123;&#125; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">int</span> *p;<span class="comment">//uhdefined</span></span><br><span class="line"><span class="keyword">int</span> *q&#123;&#125; <span class="comment">//nullptr</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的 narrowing initializations<br>当有数据丢失的风险时会报错 或者 warining 下面是在gcc7.5.0上测试的结果</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">x1</span><span class="params">(<span class="number">5.3</span>)</span></span>;<span class="comment">//OK </span></span><br><span class="line"><span class="keyword">int</span> x2 = <span class="number">5.3</span>;<span class="comment">//OK</span></span><br><span class="line"><span class="keyword">int</span> x3&#123;<span class="number">5.3</span>&#125;; <span class="comment">//error: narrowing conversion of ‘5.2999999999999998e+0’ from ‘double’ to ‘int’ inside &#123; &#125; [-Wnarrowing]</span></span><br><span class="line"><span class="keyword">int</span> x4 = &#123;<span class="number">5.3</span>&#125;; <span class="comment">// error: narrowing conversion of ‘5.2999999999999998e+0’ from ‘double’ to ‘int’ inside &#123; &#125; [-Wnarrowing]</span></span><br><span class="line"><span class="keyword">char</span> c1 &#123;<span class="number">7</span>&#125;; <span class="comment">//OK</span></span><br><span class="line"><span class="keyword">char</span> c2&#123;<span class="number">257</span>&#125;; <span class="comment">//error: narrowing conversion of ‘257’ from ‘int’ to ‘char’ inside &#123; &#125; [-Wnarrowing]</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v1 &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;<span class="comment">//OK</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2&#123;<span class="number">1</span>,<span class="number">2.3</span>,<span class="number">4</span>,<span class="number">4.6</span>&#125;;/ error: narrowing conversion of ‘<span class="number">2.2999999999999998e+0</span>’ from ‘<span class="keyword">double</span>’ to ‘<span class="keyword">int</span>’ inside &#123; &#125; [-Wnarrowing]</span><br></pre></td></tr></table></figure>
+<p>c++11 提供了initializer_list&lt;&gt; 类来支撑上面的用法，我们也可以自己使用这个类，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//tips</span></span><br><span class="line"><span class="comment">//标准库中的容器都有initializer_list为参赛的构造函数，故下面的</span></span><br><span class="line"><span class="comment">//initializer_list可以改为 deque,vector,list </span></span><br><span class="line"><span class="keyword">auto</span> print = [](<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="keyword">int</span>&gt; vals) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> p = vals.begin();p!=vals.end();++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">print(&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">13</span>&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="参数匹配规则："><a href="#参数匹配规则：" class="headerlink" title="参数匹配规则："></a>参数匹配规则：</h3><ol>
+<li>如果有参数为initializer_list的函数，直接会调用对应参数为initializer_list的函数</li>
+<li>若干没有参数为initializer_list的函数，则进行拆分initializer_list去匹配有相同参数个数，相同参数类型的函数。</li>
+</ol>
+<p>example:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">P</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// fun1</span></span><br><span class="line">    P(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt; <span class="string">"P(int,int)"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//fun2</span></span><br><span class="line">    P(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="keyword">int</span>&gt; initlist)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"P(initializer)"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// fun1 与 fun2 同时存在的调用结果</span></span><br><span class="line"><span class="function">P <span class="title">p</span><span class="params">(<span class="number">77</span>, <span class="number">5</span>)</span></span>; <span class="comment">// P(int,int)</span></span><br><span class="line">P q&#123;<span class="number">77</span>, <span class="number">5</span>&#125;; <span class="comment">//P(initializer)</span></span><br><span class="line">P r&#123;<span class="number">77</span>, <span class="number">55</span>, <span class="number">26</span>&#125;; <span class="comment">//P(initializer)</span></span><br><span class="line">P s = &#123;<span class="number">77</span>, <span class="number">5</span>&#125;;   <span class="comment">//P(initializer)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 去掉构造函数fun2 只保留fun1</span></span><br><span class="line"><span class="function">P <span class="title">p</span><span class="params">(<span class="number">77</span>, <span class="number">5</span>)</span></span>; <span class="comment">// P(int,int)</span></span><br><span class="line">P q&#123;<span class="number">77</span>, <span class="number">5</span>&#125;; <span class="comment">//P(int,int)</span></span><br><span class="line">P r&#123;<span class="number">77</span>, <span class="number">55</span>, <span class="number">26</span>&#125;; <span class="comment">//error: no matching function for call to ‘P::P(&lt;brace-enclosed initializer list&gt;)’</span></span><br><span class="line">P s = &#123;<span class="number">77</span>, <span class="number">5</span>&#125;;   <span class="comment">//P(int,int)</span></span><br></pre></td></tr></table></figure>
+<h3 id="initializer-list-的实现原理"><a href="#initializer-list-的实现原理" class="headerlink" title="initializer_list 的实现原理"></a>initializer_list 的实现原理</h3><p>以下代码摘自 gcc 7.5.0</p>
+<p>initializer_list的构造函数为 private故我们不能主动调用它，看注释可知这个构造函数是编译器可调用的。<br>故：当我们 使用大括号时 如{12,3,4,5}，编译器会先生成一个数组，然后用数字的首地址，和size来构造initializer_list。</p>
+<blockquote>
+<p>Tips</p>
+<ol>
+<li>const_iterator 类型为const _E* 也就时元素的指针，它指向的是array的地址，故array 到initializer_list应该是浅拷贝</li>
+<li>标准库中用了大量的initializer_list，如 容器的个构造，插入，还有算法 如：max({string(“abc”,string(“c”),string(“defg”)}),min({1,2,5,4,6,7,8}) </li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以下代码摘自 gcc 7.5.0 #include&lt;initializer_list&gt;</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> _<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">initializer_list</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> _E 		value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> _E&amp; 	reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> _E&amp; 	const_reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">size_t</span> 		size_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> _E* 	iterator;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> _E* 	const_iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    iterator			_M_array;</span><br><span class="line">    size_type			_M_len;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The compiler can call a private constructor.</span></span><br><span class="line">    <span class="function"><span class="keyword">constexpr</span> <span class="title">initializer_list</span><span class="params">(const_iterator __a, size_type __l)</span></span></span><br><span class="line">    : _M_array(__a), _M_len(__l) &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">constexpr</span> <span class="title">initializer_list</span><span class="params">()</span> <span class="keyword">noexcept</span></span></span><br><span class="line">    : _M_array(0), _M_len(0) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Number of elements.</span></span><br><span class="line">    <span class="keyword">constexpr</span> size_type</span><br><span class="line">    size() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="keyword">return</span> _M_len; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// First element.</span></span><br><span class="line">    <span class="keyword">constexpr</span> const_iterator</span><br><span class="line">    begin() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="keyword">return</span> _M_array; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// One past the last element.</span></span><br><span class="line">    <span class="keyword">constexpr</span> const_iterator</span><br><span class="line">    end() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="keyword">return</span> begin() + size(); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" data-id="ckbmitqr40000qkgee6bl7ya0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-c++新特性之语法优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" class="article-date">
@@ -100,7 +159,14 @@
 <h2 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h2><p>类型推倒 (一般使用在类型复杂，太长（迭代器），无法写的类型如lambda)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> i = <span class="number">42</span>; <span class="comment">//i 为int</span></span><br><span class="line"><span class="keyword">auto</span> l = [](<span class="keyword">int</span> x)-&gt;<span class="keyword">bool</span>&#123; <span class="comment">//l为 匿名函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line"><span class="keyword">auto</span> v = v.begin();</span><br></pre></td></tr></table></figure>
 <p>作为函数返回值 decltype可以提取表达式的类型</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto test(const std::string&amp; s1,const std::string&amp; s2)-&gt; decltype(s1.length()-s2.length())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> s1.length()-s2.length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> i =<span class="number">42</span>;</span><br><span class="line"><span class="keyword">auto</span> l = [](<span class="keyword">int</span> x) -&gt; <span class="keyword">decltype</span>(x) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;x&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">auto</span> b = l(<span class="number">33</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Uniform-Initialization-统一初始化"><a href="#Uniform-Initialization-统一初始化" class="headerlink" title="Uniform Initialization(统一初始化)"></a>Uniform Initialization(统一初始化)</h2><p>含义：任何初始化动作都可以用共同的一种语法来初始化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> values[] &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; cities &#123;<span class="string">"beijing"</span>,<span class="string">"shanghaii"</span>,<span class="string">"xian"</span>&#125;;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; c&#123;<span class="number">4.0</span>,<span class="number">3.0</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>编译器看到{t1,t2…tn}时便做出一个initializer_list,它关联一个array&lt;T，n&gt;。调用函数时（如ctor）这个array内的 元素可以被编译器分解并传给函数。但是如果函数参数是initializer_list<T>时（容器都会有一个参数为它的构造函数）如上面的vector初始化，调用者无法知道参数的个数此时会把它们（array&lt;T,n&gt;）自动转换为一个initializer传进去。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; cities &#123;<span class="string">"beijing"</span>,<span class="string">"shanghaii"</span>,<span class="string">"xian"</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的代码会形成一个 initializer_list<string>,背后有一个 array&lt;string,6&gt;,调用vector<string> ctors时编译器找到了一个接受initializer_list<striing>参数的构造函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">complex</span>&lt;<span class="keyword">double</span>&gt; c&#123;<span class="number">4.0</span>,<span class="number">3.0</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的代码生成一个initializer_list<double>，背后有一个array&lt;double,2&gt;。调用complex<double>的构造函数时，这个array内的两个元素被分解传给构造函数。complex<double>没有可以接受参数为 initializer_list<double>的构造函数。</p>
 
       
     </div>
@@ -108,6 +174,8 @@
       <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/" data-id="ckbjm95ik000020gegafm9cip" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
     </footer>
   </div>
   
@@ -158,7 +226,7 @@
       <a data-url="http://yoursite.com/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/" data-id="ckbjmdie20000whge8dxn6wkq" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c-11/" rel="tag">c++11</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
 
     </footer>
   </div>
@@ -280,7 +348,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-11/" rel="tag">c++11</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
     </div>
   </div>
 
@@ -290,7 +358,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/c-11/" style="font-size: 10px;">c++11</a>
+      <a href="/tags/c/" style="font-size: 10px;">c++</a>
     </div>
   </div>
 
@@ -310,6 +378,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/">c++新特性之初始化列表</a>
+          </li>
         
           <li>
             <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/">c++新特性之语法优化</a>
