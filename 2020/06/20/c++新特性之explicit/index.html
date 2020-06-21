@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>c++新特性之explicit | 记录每一天</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="explicit for ctors taking one argument我们看一组例子 有两个复数类 Complex 与Complex2 他们的唯一区别就是 1234567891011121314151617181920212223242526272829303132333435struct Complex&amp;#123;    int real,image;    Complex(int a,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++新特性之explicit">
+<meta property="og:url" content="http://yoursite.com/2020/06/20/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bexplicit/index.html">
+<meta property="og:site_name" content="记录每一天">
+<meta property="og:description" content="explicit for ctors taking one argument我们看一组例子 有两个复数类 Complex 与Complex2 他们的唯一区别就是 1234567891011121314151617181920212223242526272829303132333435struct Complex&amp;#123;    int real,image;    Complex(int a,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-20T08:06:07.000Z">
+<meta property="article:modified_time" content="2020-06-21T09:27:05.582Z">
+<meta property="article:author" content="huangruifeng">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="记录每一天" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">记录每一天</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">huangruifeng blog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-c++新特性之explicit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/20/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bexplicit/" class="article-date">
+  <time datetime="2020-06-20T08:06:07.000Z" itemprop="datePublished">2020-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      c++新特性之explicit
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="explicit-for-ctors-taking-one-argument"><a href="#explicit-for-ctors-taking-one-argument" class="headerlink" title="explicit for ctors taking one argument"></a>explicit for ctors taking one argument</h2><p>我们看一组例子 有两个复数类 Complex 与Complex2 他们的唯一区别就是</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> real,image;</span><br><span class="line">    Complex(<span class="keyword">int</span> a, <span class="keyword">int</span> b=<span class="number">0</span>) : real(a), image(b)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    Complex <span class="keyword">operator</span>+(<span class="keyword">const</span> Complex &amp;x)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Complex(real + x.real, image + x.image);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex2</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> real,image;</span><br><span class="line">    explicit Complex2(int a, int b=0) : real(a), image(b)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    Complex2 <span class="keyword">operator</span>+(<span class="keyword">const</span> Complex2 &amp;x)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> Complex(real + x.real, image + x.image);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Complex <span class="title">c1</span><span class="params">(<span class="number">12</span>,<span class="number">4</span>)</span></span>;</span><br><span class="line">    Complex c2 = c1 + <span class="number">5</span>; <span class="comment">//ok 5被转隐式转换为Complex</span></span><br><span class="line">    </span><br><span class="line">    <span class="function">Complex2 <span class="title">c3</span><span class="params">(<span class="number">12</span>,<span class="number">4</span>)</span></span>;</span><br><span class="line">    Complex2 c4 = c3 +<span class="number">5</span>; <span class="comment">//error </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="explicit-for-ctors-taking-more-than-one-argument-c-11"><a href="#explicit-for-ctors-taking-more-than-one-argument-c-11" class="headerlink" title="explicit for ctors taking more than one argument (c++11)"></a>explicit for ctors taking more than one argument (c++11)</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/20/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bexplicit/" data-id="ckbovacq50001ofge6qsm7dds" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/06/21/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B=default,=delete/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          c++新特性之default,delete
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">c++新特性之初始化列表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/c/" style="font-size: 10px;">c++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/21/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B=default,=delete/">c++新特性之default,delete</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/20/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bexplicit/">c++新特性之explicit</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/19/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/">c++新特性之初始化列表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E8%AF%AD%E6%B3%95%E4%BC%98%E5%8C%96/">c++新特性之语法优化</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/17/c++%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8B%E5%8F%AF%E5%8F%98%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0/">可变模板参数</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 huangruifeng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
